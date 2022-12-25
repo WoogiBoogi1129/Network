@@ -5,21 +5,19 @@
 using namespace std;
 
 int solution(vector<string> babbling) {
-    int spWordCnt = 0;
+    int answer = 0;
 
-    vector<string> vSpables; // speakable
-    vSpables.push_back("aya");
-    vSpables.push_back("ye");
-    vSpables.push_back("woo");
-    vSpables.push_back("ma");
-
-    for(const auto& word: babbling){
-        int checkBeginIdx = 0;
-        bool checkFinished = false;
+    // 옹알이 가능한 단어들을 저장해놓는 공간 --> 이후 비교할 때 사용됨.
+    vector<string> a = {"aya", "ye", "woo", "ma"};
+    // word라는 변수로 babbling의 크기 만큼 반복해라.
+    for(const auto& word: babbling){ // const auto라는 명령어가 생소했으나, 검색을 통해 어떤 의미인지 알아냄.
+        int checkBeginIdx = 0; // 시작 주소 초기화
+        bool checkFinished = false; // 끝났는지 안끝났는지 판단하는 변수 초기화
 
         vector<int> noProbs;
 
         int i;
+        // 한 벡터 안에 들어있는 문자열을 알파벳 단위로 쪼개는 코드
         for(i = 0; i<word.length(); ++i){
             char wordChar = word[i];
 
@@ -27,10 +25,10 @@ int solution(vector<string> babbling) {
 
             checkFinished = false;
 
-            for(int j=0; j<vSpables.size(); ++j){
+            for(int j=0; j<a.size(); ++j){
                 if(find(noProbs.begin(), noProbs.end(), j) != noProbs.end()) continue;
 
-                const string& spable = vSpables[j];
+                const string& spable = a[j];
                 int spableCharIdx = i - checkBeginIdx;
 
                 if(wordChar == spable[spableCharIdx]){
@@ -51,9 +49,9 @@ int solution(vector<string> babbling) {
         }
 
         if(i == word.length() && checkFinished){
-            ++spWordCnt;
+            ++answer;
         }
     }
 
-    return spWordCnt;
+    return answer;
 }
